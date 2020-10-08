@@ -38,7 +38,11 @@ app.post("/orders", (req, res) => {
 });
 
 app.get("/products", (req, res) => {
-  productsCollection.find({}).toArray((err, documents) => res.send(documents));
+  const name = req.query.search;
+
+  productsCollection
+    .find({ name: { $regex: name } })
+    .toArray((err, documents) => res.send(documents));
 });
 
 app.get("/products/:key", (req, res) => {
